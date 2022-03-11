@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: dev.awilder
+testFramework: kotest
+sourceLanguage: kotlin
+buildTool: gradle_kotlin
+features: [annotation-api, app-name, gradle, h2, hibernate-jpa, http-client, jackson-databind, jdbc-hikari, kotest, kotlin, kotlin-application, kotlin-build, kotlin-extension-functions, logback, micronaut-build, netty-server, readme, shade, yaml]
