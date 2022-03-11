@@ -4,6 +4,9 @@ import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.kotest.annotation.MicronautTest
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.should
+import io.kotest.matchers.shouldBe
 
 @MicronautTest
 class KotlinBooleanBugTest(
@@ -15,16 +18,53 @@ class KotlinBooleanBugTest(
         assert(application.isRunning)
     }
 
-    "hibernate is querying correctly" {
+    "hibernate with repository method is querying correctly" {
         testEntityRepository.save(
             TestEntity(
                 name = "test"
             )
         )
-        testEntityRepository.findById(1).orElseGet(null)?.also {
-            it.name = "test2"
-            testEntityRepository.update(it)
+        testEntityRepository.findById(1).orElse(null) should {
+            it.shouldNotBeNull()
+            it.name shouldBe "test"
         }
         testEntityRepository.findAll().toList() shouldHaveSize 1
+    }
+
+    "hibernate with custom query without boolean is querying correctly" {
+        testEntityRepository.save(
+            TestEntity(
+                name = "test"
+            )
+        )
+        testEntityRepository.withoutBooleanTest("tes%").orElse(null) should {
+            it.shouldNotBeNull()
+            it.name shouldBe "test"
+        }
+    }
+
+    "hibernate with custom query with boolean is querying correctly" {
+        testEntityRepository.save(
+            TestEntity(
+                name = "test"
+            )
+        )
+        testEntityRepository.withBooleanTest(false).orElse(null) should {
+            it.shouldNotBeNull()
+            it.name shouldBe "test"
+        }
+    }
+
+    "hibernate is updating correctly" {
+        testEntityRepository.save(
+            TestEntity(
+                name = "test"
+            )
+        )
+        testEntityRepository.findById(1).orElse(null)?.also {
+            it.name = "test2"
+            it.isImportant = true
+            testEntityRepository.update(it)
+        }
     }
 })

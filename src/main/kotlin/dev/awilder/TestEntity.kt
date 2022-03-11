@@ -15,5 +15,6 @@ class TestEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
     var name: String = "",
-    var isDeleted: Boolean = false
+    var isDeleted: Boolean = false,
+    var isImportant: Boolean = false,
 )
