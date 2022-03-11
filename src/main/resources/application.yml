@@ -3,9 +3,9 @@ micronaut:
     name: kotlinBooleanBug
 datasources:
   default:
-    url: jdbc:h2:mem:devDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-    driverClassName: org.h2.Driver
-    username: sa
+    url: jdbc:postgresql://localhost:5432/postgres
+    driverClassName: org.postgresql.Driver
+    username: postgres
     password: ''
 jpa.default.properties.hibernate.hbm2ddl.auto: update
 netty:
