@@ -61,7 +61,8 @@ class KotlinBooleanBugTest(
                 name = "test"
             )
         )
-        testEntityRepository.findById(1).orElse(null)?.also {
+        testEntityRepository.findById(4).orElse(null).also {
+            it.shouldNotBeNull()
             it.name = "test2"
             it.isImportant = true
             testEntityRepository.update(it)
